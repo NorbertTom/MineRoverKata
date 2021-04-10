@@ -14,8 +14,8 @@ namespace MineRoverKata
             // Engine
             // setArenaSize
             // for loop (from 0 to nrOfRobots)
-            // create robot
-            // set initial position & orientation
+                // create robot
+                // set initial position & orientation
             // execute commands
             // output final position
         }

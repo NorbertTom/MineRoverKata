@@ -10,7 +10,7 @@ namespace MineRoverKata
 
         public void SetWidth(int width)
         {
-            Debug.Assert(width > 0, "Width cannot be less or equal to 0");
+            Debug.Assert(width > 0, "Width cannot be less then or equal to 0");
             
             this.width = width;
         }
@@ -20,6 +20,19 @@ namespace MineRoverKata
             return width;
         }
 
+        public void SetHeight(int height)
+        {
+            Debug.Assert(height > 0, "Height cannot be less then or equal to 0");
+
+            this.height = height;
+        }
+
+        public int GetHeight()
+        {
+            return height;
+        }
+
         private int width;
+        private int height;
     }
 }

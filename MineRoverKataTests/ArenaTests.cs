@@ -17,7 +17,19 @@ namespace MineRoverKataTests
             width = 11;
             arena.SetWidth(width);
             Assert.Equal(width, arena.GetWidth());
-            arena.SetWidth(-1);
+        }
+
+        [Fact]
+        public void heightSetterAndGetter()
+        {
+            Arena arena = new Arena();
+            int height = 12;
+            arena.SetHeight(height);
+            Assert.Equal(height, arena.GetHeight());
+
+            height = 20;
+            arena.SetHeight(height);
+            Assert.Equal(height, arena.GetHeight());
         }
     }
 }
