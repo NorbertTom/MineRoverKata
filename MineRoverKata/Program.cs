@@ -9,7 +9,7 @@ namespace MineRoverKata
 
             InputDataBuffer inputData = InputDataPhaseExecutor.Run();
 
-
+            //InputDataTranslator
 
             // Engine
             // setArenaSize
