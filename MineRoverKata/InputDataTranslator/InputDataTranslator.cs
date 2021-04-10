@@ -4,10 +4,8 @@ using System.Text;
 
 namespace MineRoverKata
 {
-    class InputDataTranslator
+    static class InputDataTranslator
     {
-        InputDataTranslator()
-        {}
 
         public static SizeOfArenaTranslated TranslateSizeOfArena(string sizeOfArenaString)
         {

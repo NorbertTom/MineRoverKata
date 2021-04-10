@@ -70,7 +70,6 @@ namespace MineRoverKataTests
             initPosAndOrientString = "d 23 N";
             initPosAndOrientTranslated = InputDataTranslator.TranslateInitialPositionAndOrientation(initPosAndOrientString);
             Assert.Null(initPosAndOrientTranslated);
-
         }
     }
 }
