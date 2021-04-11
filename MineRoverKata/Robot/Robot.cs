@@ -78,6 +78,8 @@ namespace MineRoverKata
                 case 'E':
                     result = RobotOrientation.East;
                     break;
+                default:
+                    throw new Exception("Wrong orientation provided to the engine");
             }
             return result;
         }
