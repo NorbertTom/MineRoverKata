@@ -7,7 +7,8 @@ namespace MineRoverKata
         static void Main(string[] args)
         {
 
-            InputDataBuffer inputData = InputDataPhaseExecutor.Run();
+            var inputData = new InputDataBuffer();
+            InputDataPhaseExecutor.Run(inputData);
 
             //InputDataTranslator
 

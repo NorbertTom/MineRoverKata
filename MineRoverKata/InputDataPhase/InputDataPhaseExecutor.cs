@@ -4,28 +4,23 @@ using System.Text;
 
 namespace MineRoverKata
 {
-    static class InputDataPhaseExecutor
+    static class InputDataPhaseExecutor // untestable - user input needed
     {
-        public static InputDataBuffer Run()
+        public static void Run(IInputDataBuffer inputDataBuffer)
         {
-            InputDataBuffer inputDataBuffer = new InputDataBuffer();
-            
             UIMessages.OpeningMessage();
-
             InputSizeOfArena(inputDataBuffer);
             InputRobotsData(inputDataBuffer);
-
-            return inputDataBuffer;
         }
 
-        private static void InputSizeOfArena(InputDataBuffer inputDataBuffer)
+        private static void InputSizeOfArena(IInputDataBuffer inputDataBuffer)
         {
             UIMessages.InputSizeOfArenaMessage();
             string inputSizeOfArena = Console.ReadLine();
             inputDataBuffer.SetSizeOfArena(inputSizeOfArena);
         }
 
-        private static void InputRobotsData(InputDataBuffer inputDataBuffer)
+        private static void InputRobotsData(IInputDataBuffer inputDataBuffer)
         {
             while (true)
             {
