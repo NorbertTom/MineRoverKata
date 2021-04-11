@@ -81,5 +81,57 @@ namespace MineRoverKataTests
             robotMock.Verify(x => x.SetOrientation(RobotOrientation.South), Times.Never());
             robotMock.Verify(x => x.SetOrientation(RobotOrientation.West), Times.Once());
         }
+
+        [Fact]
+        public static void movingEast()
+        {
+            var robotMock = new Mock<IRobot>();
+            int[] mockGetPositionReturn = { 5, 4 };
+            robotMock.Setup(x => x.GetOrientation()).Returns(RobotOrientation.East);
+            robotMock.Setup(x => x.GetPosition()).Returns(mockGetPositionReturn);
+
+            RobotActionExecutor.Execute(robotMock.Object, 'M');
+            
+            robotMock.Verify(x => x.SetPosition(6, 4), Times.Once());
+        }
+
+        [Fact]
+        public static void movingWest()
+        {
+            var robotMock = new Mock<IRobot>();
+            int[] mockGetPositionReturn = { 10, 1 };
+            robotMock.Setup(x => x.GetOrientation()).Returns(RobotOrientation.West);
+            robotMock.Setup(x => x.GetPosition()).Returns(mockGetPositionReturn);
+
+            RobotActionExecutor.Execute(robotMock.Object, 'M');
+
+            robotMock.Verify(x => x.SetPosition(9, 1), Times.Once());
+        }
+
+        [Fact]
+        public static void movingNorth()
+        {
+            var robotMock = new Mock<IRobot>();
+            int[] mockGetPositionReturn = { 2, 0 };
+            robotMock.Setup(x => x.GetOrientation()).Returns(RobotOrientation.North);
+            robotMock.Setup(x => x.GetPosition()).Returns(mockGetPositionReturn);
+
+            RobotActionExecutor.Execute(robotMock.Object, 'M');
+
+            robotMock.Verify(x => x.SetPosition(2, 1), Times.Once());
+        }
+
+        [Fact]
+        public static void movingSouth()
+        {
+            var robotMock = new Mock<IRobot>();
+            int[] mockGetPositionReturn = { 4, 1 };
+            robotMock.Setup(x => x.GetOrientation()).Returns(RobotOrientation.South);
+            robotMock.Setup(x => x.GetPosition()).Returns(mockGetPositionReturn);
+
+            RobotActionExecutor.Execute(robotMock.Object, 'M');
+
+            robotMock.Verify(x => x.SetPosition(4, 0), Times.Once());
+        }
     }
 }

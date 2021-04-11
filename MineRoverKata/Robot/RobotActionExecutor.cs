@@ -52,10 +52,11 @@ namespace MineRoverKata
 
         private static void move(IRobot robot)
         {
-            var orientation = robot.GetOrientation();
+            RobotOrientation orientation = robot.GetOrientation();
             int[] robotDisplacement = MoveRobot.GetRobotDisplacement(orientation);
             int[] currentPosition = robot.GetPosition();
-            int[] finalPosition = { currentPosition[0] + robotDisplacement[0], currentPosition[1] + robotDisplacement[1] };
+            int[] finalPosition = { currentPosition[0] + robotDisplacement[0],
+                                    currentPosition[1] + robotDisplacement[1] };
             robot.SetPosition(finalPosition[0], finalPosition[1]);
         }
     }
