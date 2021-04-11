@@ -15,15 +15,27 @@ namespace MineRoverKata
             var arena = new Arena();
             List<Robot> robots = new List<Robot>();
             List<string> commandStreams = new List<string>();
-            prepareLists(robots, commandStreams, inputData.GetNrOfRobots());
+            prepareLists(robots, inputData.GetNrOfRobots());
 
+            ConsumeInputPhaseExecutor.Run(inputData, arena, robots, commandStreams);
 
-            // Engine
-            // execute commands
+            int nrOfRobots = inputData.GetNrOfRobots();
+
+            for (int robotIndex = 0; robotIndex < nrOfRobots; robotIndex++)
+            {
+                ExecuteCommands.Run(robots[robotIndex], commandStreams[robotIndex]);
+            }
+
+            for (int robotIndex = 0; robotIndex < nrOfRobots; robotIndex++)
+            {
+                int[] finalPosition = robots[robotIndex].GetPosition();
+                char finalOrientation = robots[robotIndex].GetOrientationAsChar();
+                Console.WriteLine(finalPosition[0] + " " + finalPosition[1] + " "  + finalOrientation);
+            }
             // output final position
         }
 
-        private static void prepareLists(List<Robot> robots, List<string> commandStreams, int finalSize)
+        private static void prepareLists(List<Robot> robots, int finalSize)
         {
             for (int i = 0; i < finalSize; i++)
             {
