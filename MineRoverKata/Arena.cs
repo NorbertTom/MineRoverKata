@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace MineRoverKata
 {
-    class Arena
+    class Arena : IArena
     {
         public Arena()
         {}

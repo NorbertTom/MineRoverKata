@@ -9,6 +9,22 @@ namespace MineRoverKataTests
     public class RobotActionExecutorTests
     {
         [Fact]
+        public static void ifPositionIsValid()
+        {
+            RobotActionExecutor.SetMaxX(10);
+            RobotActionExecutor.SetMaxY(100);
+            Assert.True(RobotActionExecutor.IsPositionValid(0, 0));
+            Assert.True(RobotActionExecutor.IsPositionValid(9, 99));
+            Assert.True(RobotActionExecutor.IsPositionValid(10, 100));
+            Assert.False(RobotActionExecutor.IsPositionValid(-1, 2));
+            Assert.False(RobotActionExecutor.IsPositionValid(1, -2));
+            Assert.False(RobotActionExecutor.IsPositionValid(-1, -2));
+            Assert.False(RobotActionExecutor.IsPositionValid(9, 101));
+            Assert.False(RobotActionExecutor.IsPositionValid(11, 10));
+            Assert.False(RobotActionExecutor.IsPositionValid(11, 102));
+        }
+
+        [Fact]
         public static void turningLeft()
         {
             var robotMock = new Mock<IRobot>();
@@ -85,6 +101,8 @@ namespace MineRoverKataTests
         [Fact]
         public static void movingEast()
         {
+            RobotActionExecutor.SetMaxX(10);
+            RobotActionExecutor.SetMaxY(5);
             var robotMock = new Mock<IRobot>();
             int[] mockGetPositionReturn = { 5, 4 };
             robotMock.Setup(x => x.GetOrientation()).Returns(RobotOrientation.East);
@@ -98,6 +116,8 @@ namespace MineRoverKataTests
         [Fact]
         public static void movingWest()
         {
+            RobotActionExecutor.SetMaxX(10);
+            RobotActionExecutor.SetMaxY(5);
             var robotMock = new Mock<IRobot>();
             int[] mockGetPositionReturn = { 10, 1 };
             robotMock.Setup(x => x.GetOrientation()).Returns(RobotOrientation.West);
@@ -111,6 +131,8 @@ namespace MineRoverKataTests
         [Fact]
         public static void movingNorth()
         {
+            RobotActionExecutor.SetMaxX(2);
+            RobotActionExecutor.SetMaxY(1);
             var robotMock = new Mock<IRobot>();
             int[] mockGetPositionReturn = { 2, 0 };
             robotMock.Setup(x => x.GetOrientation()).Returns(RobotOrientation.North);
@@ -124,6 +146,8 @@ namespace MineRoverKataTests
         [Fact]
         public static void movingSouth()
         {
+            RobotActionExecutor.SetMaxX(4);
+            RobotActionExecutor.SetMaxY(1);
             var robotMock = new Mock<IRobot>();
             int[] mockGetPositionReturn = { 4, 1 };
             robotMock.Setup(x => x.GetOrientation()).Returns(RobotOrientation.South);

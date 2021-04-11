@@ -53,5 +53,19 @@ namespace MineRoverKataTests
                 Assert.Equal(inputCommandStream[i], inputDataBuffer.GetCommandStream(i));
             }
         }
+
+        [Fact]
+        public void getNrOfRobots()
+        {
+            var inputDataBuffer = new InputDataBuffer();
+            string[] initialPositions = { "1 5 E", "2 5 W", "5 1 N", "10 20 S" };
+            for (int i=0; i<initialPositions.Length; i++)
+            {
+                inputDataBuffer.AddInitialPositionAndOrientation(initialPositions[i]);
+            }
+
+            int expectedNrOfRobots = initialPositions.Length;
+            Assert.Equal(expectedNrOfRobots, inputDataBuffer.GetNrOfRobots());
+        }
     }
 }

@@ -21,7 +21,27 @@ namespace MineRoverKata
                     break;
             }
         }
-        
+
+        public static void SetMaxX(int arenaMaxX)
+        {
+            maxX = arenaMaxX;
+        }
+
+        public static void SetMaxY(int arenaMaxY)
+        {
+            maxY = arenaMaxY;
+        }
+
+        public static bool IsPositionValid(int x, int y)
+        {
+            bool isValid = true;
+            if (x < 0 || y < 0 || x > maxX || y > maxY)
+            {
+                isValid = false;
+            }
+            return isValid;
+        }
+
         private static void turnLeft(IRobot robot)
         {
             RobotOrientation orientation = robot.GetOrientation();
@@ -57,7 +77,16 @@ namespace MineRoverKata
             int[] currentPosition = robot.GetPosition();
             int[] finalPosition = { currentPosition[0] + robotDisplacement[0],
                                     currentPosition[1] + robotDisplacement[1] };
+            
+            if (!IsPositionValid(finalPosition[0], finalPosition[1]))
+            {
+                throw new Exception("Move puts robot out of the arena");
+            }
+
             robot.SetPosition(finalPosition[0], finalPosition[1]);
         }
+
+        private static int maxX;
+        private static int maxY;
     }
 }

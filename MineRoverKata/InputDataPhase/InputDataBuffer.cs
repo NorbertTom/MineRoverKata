@@ -23,6 +23,7 @@ namespace MineRoverKata
         public void AddInitialPositionAndOrientation(string initialPositionAndOrientation)
         {
             this.initialPostionAndOrientation.Add(initialPositionAndOrientation);
+            nrOfRobots++;
         }
 
         public string GetInitialPositionAndOrientation(int index)
@@ -46,9 +47,15 @@ namespace MineRoverKata
             return commandStream[index];
         }
 
+        public int GetNrOfRobots()
+        {
+            return nrOfRobots;
+        }
+
 
         private string sizeOfArena;
         private List<string> initialPostionAndOrientation = new List<string>();
         private List<string> commandStream = new List<string>();
+        private int nrOfRobots = 0;
     }
 }
