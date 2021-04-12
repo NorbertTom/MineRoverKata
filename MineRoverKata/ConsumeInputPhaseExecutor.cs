@@ -23,8 +23,8 @@ namespace MineRoverKata
 
         private static void setLimitsForRobotMovement(IArena arena)
         {
-            RobotActionExecutor.SetMaxX(arena.GetWidth());
-            RobotActionExecutor.SetMaxY(arena.GetHeight());
+            PositionValidator.SetMaxX(arena.GetWidth());
+            PositionValidator.SetMaxY(arena.GetHeight());
         }
 
         private static void createRobots(IInputDataBuffer inputData, List<Robot> robots)
@@ -32,18 +32,13 @@ namespace MineRoverKata
             int nrOfRobots = inputData.GetNrOfRobots();
             for (int robotIndex = 0; robotIndex < nrOfRobots; robotIndex++)
             {
-                var initialPositionAndOrientation = InputDataTranslator.TranslateInitialPositionAndOrientation(
-                                                        inputData.GetInitialPositionAndOrientation(robotIndex));
-                bool isPositionValid = RobotActionExecutor.IsPositionValid(
-                                                                    initialPositionAndOrientation.X,
-                                                                    initialPositionAndOrientation.Y);
-                if (!isPositionValid)
-                {
-                    throw new Exception("Initial position invalid");
-                }
-                
-                robots[robotIndex].SetPosition(initialPositionAndOrientation.X, initialPositionAndOrientation.Y);
-                robots[robotIndex].SetOrientation(initialPositionAndOrientation.Orientation);
+                string initPosAndOrientString = inputData.GetInitialPositionAndOrientation(robotIndex);
+                var initPosAndOrient = InputDataTranslator.TranslateInitialPositionAndOrientation(
+                                                                            initPosAndOrientString);
+                validateInitialPositionAndOrientation(initPosAndOrient);
+
+                robots[robotIndex].SetPosition(initPosAndOrient.X, initPosAndOrient.Y);
+                robots[robotIndex].SetOrientation(initPosAndOrient.Orientation);
             }
         }
 
@@ -53,6 +48,21 @@ namespace MineRoverKata
             for (int i = 0; i < nrOfRobots; i++)
             {
                 commandStreams.Add(inputData.GetCommandStream(i));
+            }
+        }
+        
+        private static void validateInitialPositionAndOrientation(InitialPositionAndOrientationTranslated initPosAndOrient)
+        {
+            bool isPositionValid = PositionValidator.checkPosition(initPosAndOrient.X, initPosAndOrient.Y);
+            bool isOrientationValid = OrientationValidator.checkCharacter(initPosAndOrient.Orientation);
+
+            if (!isPositionValid)
+            {
+                throw new Exception("Initial position invalid");
+            }
+            if (!isOrientationValid)
+            {
+                throw new Exception("Initial orientation invalid");
             }
         }
     }

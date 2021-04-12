@@ -22,20 +22,42 @@ namespace MineRoverKata
 
         private static void InputRobotsData(IInputDataBuffer inputDataBuffer)
         {
-            while (true)
+            bool keepAddingRobots = true;
+            while (keepAddingRobots)
             {
-                UIMessages.InputInitialPositionAndOrientationMessage();
-                string inputInitPositionAndOrientation = Console.ReadLine();
-                if (inputInitPositionAndOrientation == "")
-                {
-                    break;
-                }
-                inputDataBuffer.AddInitialPositionAndOrientation(inputInitPositionAndOrientation);
+                keepAddingRobots = InputInitialPositionAndOrientation(inputDataBuffer);
 
-                UIMessages.InputCommandStreamMessage();
-                string inputCommandStream = Console.ReadLine();
-                inputDataBuffer.AddCommandStream(inputCommandStream);
+                if (keepAddingRobots)
+                {
+                    InputCommandStream(inputDataBuffer);
+                }
             }
+        }
+
+        private static bool InputInitialPositionAndOrientation(IInputDataBuffer inputDataBuffer)
+        {
+            bool keepAddingRobots = true;
+
+            UIMessages.InputInitialPositionAndOrientationMessage();
+            string inputInitPositionAndOrientation = Console.ReadLine();
+            
+            if (inputInitPositionAndOrientation == "")
+            {
+                keepAddingRobots = false;
+            }
+            else
+            {
+                inputDataBuffer.AddInitialPositionAndOrientation(inputInitPositionAndOrientation);
+            }
+
+            return keepAddingRobots;
+        }
+
+        private static void InputCommandStream(IInputDataBuffer inputDataBuffer)
+        {
+            UIMessages.InputCommandStreamMessage();
+            string inputCommandStream = Console.ReadLine();
+            inputDataBuffer.AddCommandStream(inputCommandStream);
         }
     }
 }
