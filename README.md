@@ -48,16 +48,14 @@ MMRMMRMRRM
 In the description there is no explicit information what should happen when invalid data is provided by the user
 or when robot gets out of the arena. In those cases my program can behave unexpectedly, but most cases are covered with exceptions.<br>
 There is also no information what happens when one robot drives through a field on which another one is standing. Those cases
-are ignored - program proceeds as nothing happened.
+are ignored - program proceeds as if nothing happened.
 
 ## How to run and build the project
-<br>
 To run the project you need Visual Studio 2019 with .NET Core 3.1 Framework installed.
 Then you can open the solution file (MineRoverKata.sln), open <i>Build</i> and choose <i>Build Solution</i> option.
 Make sure MineRoverKata project is marked as Startup project.
 After that you can run it by hitting F5 or open <i>Debug</i> and choose <i>Start Debugging</i>.
 
 ## How to run tests
-<br>
 To run tests you need xUnit and Moq installed with your Visual Studio. With that installed you need to open
 MineRoverKata.sln solution file, open <i>Test</i> and choose <i>Run All Tests</i>.
