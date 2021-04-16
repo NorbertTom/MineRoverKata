@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MineRoverKata
 {
-    enum RobotOrientation
+    public enum RobotOrientation
     {
         North = 0,
         East,

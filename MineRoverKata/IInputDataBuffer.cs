@@ -15,6 +15,6 @@ namespace MineRoverKata
         public void AddCommandStream(string commandStream);
         public string GetCommandStream(int index);
 
-        public int GetNrOfRobots();
+        public int NrOfRobots { get; }
     }
 }

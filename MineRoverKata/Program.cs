@@ -10,36 +10,30 @@ namespace MineRoverKata
         {
 
             var inputData = new InputDataBuffer();
-            InputDataPhaseExecutor.Run(inputData);
+            var inputDataPhaseExecutor = new InputDataPhaseExecutor(inputData);
+            inputDataPhaseExecutor.Run();
 
-            var arena = new Arena();
-            List<Robot> robots = new List<Robot>();
-            addEmptyRobotsToList(robots, inputData.GetNrOfRobots());
-            List<string> commandStreams = new List<string>();
+            int nrOfRobots = inputData.NrOfRobots;
 
-            ConsumeInputPhaseExecutor.Run(inputData, arena, robots, commandStreams);
+            var mineRovers = new MineRovers(nrOfRobots);
 
-            int nrOfRobots = inputData.GetNrOfRobots();
+            var inputConsumer = new ConsumeInputPhaseExecutor(inputData, mineRovers);
+            inputConsumer.Run();
 
             for (int robotIndex = 0; robotIndex < nrOfRobots; robotIndex++)
             {
-                ExecuteCommands.Run(robots[robotIndex], commandStreams[robotIndex]);
+                var robotActionExecutor = new RobotActionExecutor(mineRovers.Robots[robotIndex],
+                                                                  mineRovers.CommandStreams[robotIndex],
+                                                                  mineRovers.arena);
+                robotActionExecutor.ExecuteAllActions();
             }
 
             for (int robotIndex = 0; robotIndex < nrOfRobots; robotIndex++)
             {
-                int[] finalPosition = robots[robotIndex].GetPosition();
-                char finalOrientation = robots[robotIndex].GetOrientationAsChar();
+                int[] finalPosition = mineRovers.Robots[robotIndex].GetPosition();
+                char finalOrientation = mineRovers.Robots[robotIndex].GetOrientationAsChar();
                 Console.WriteLine(finalPosition[0] + " " + finalPosition[1] + " "  + finalOrientation);
             }
         }
-
-        private static void addEmptyRobotsToList(List<Robot> robots, int finalSize)
-        {
-            for (int i = 0; i < finalSize; i++)
-            {
-                robots.Add(new Robot());
-            }
-        }
-}
+    }
 }

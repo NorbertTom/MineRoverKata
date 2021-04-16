@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MineRoverKata
 {
-    class SizeOfArenaTranslated
+    class Dimensions
     {
         public int Width;
         public int Height;

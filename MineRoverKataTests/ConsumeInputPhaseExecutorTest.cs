@@ -9,13 +9,13 @@ namespace MineRoverKataTests
     public class ConsumeInputPhaseExecutorTest
     {
         [Fact]
-        public static void runTest()
+        public static void RunTest()
         {
             int nrOfRobots = 3;
             var mockDataInput = new Mock<IInputDataBuffer>();
             string mockedSizeOfArena = "10 25";
             mockDataInput.Setup(x => x.GetSizeOfArena()).Returns(mockedSizeOfArena);
-            mockDataInput.Setup(x => x.GetNrOfRobots()).Returns(nrOfRobots);
+            mockDataInput.Setup(x => x.NrOfRobots).Returns(nrOfRobots);
             mockDataInput.Setup(x => x.GetInitialPositionAndOrientation(0)).Returns("0 0 E");
             mockDataInput.Setup(x => x.GetInitialPositionAndOrientation(1)).Returns("2 1 W");
             mockDataInput.Setup(x => x.GetInitialPositionAndOrientation(2)).Returns("10 25 S");
@@ -25,19 +25,10 @@ namespace MineRoverKataTests
                 mockDataInput.Setup(x => x.GetCommandStream(i)).Returns(mockedCommandStreams[i]);
             }
 
-            var mockArena = new Mock<IArena>();
-            mockArena.Setup(x => x.GetWidth()).Returns(10);
-            mockArena.Setup(x => x.GetHeight()).Returns(25);
+            var mineRovers = new MineRovers(nrOfRobots);
 
-            List<Robot> robots = new List<Robot>();
-            for (int i = 0; i < nrOfRobots; i++)
-            {
-                robots.Add(new Robot());
-
-            }
-            List<string> commandStreams = new List<string>();
-
-            ConsumeInputPhaseExecutor.Run(mockDataInput.Object, mockArena.Object, robots, commandStreams);
+            var inputConsumer = new ConsumeInputPhaseExecutor(mockDataInput.Object, mineRovers);
+            inputConsumer.Run();
 
             int[] expectedPosition0 = { 0, 0 };
             int[] expectedPosition1 = { 2, 1 };
@@ -47,12 +38,12 @@ namespace MineRoverKataTests
             char[] expectedOrientations = { 'E', 'W', 'S' };
             for (int i=0; i< nrOfRobots; i++)
             {
-                Assert.Equal(expectedPositions[i], robots[i].GetPosition());
-                Assert.Equal(expectedOrientations[i], robots[i].GetOrientationAsChar());
-                Assert.Equal(mockedCommandStreams[i], commandStreams[i]);
+                Assert.Equal(10, mineRovers.arena.Width);
+                Assert.Equal(25, mineRovers.arena.Height);
+                Assert.Equal(expectedPositions[i], mineRovers.Robots[i].GetPosition());
+                Assert.Equal(expectedOrientations[i], mineRovers.Robots[i].GetOrientationAsChar());
+                Assert.Equal(mockedCommandStreams[i], mineRovers.CommandStreams[i]);
             }
-            mockArena.Verify(x => x.SetWidth(10), Times.Once());
-            mockArena.Verify(x => x.SetHeight(25), Times.Once());
         }
     }
 }

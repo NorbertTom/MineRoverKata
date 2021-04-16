@@ -1,59 +1,55 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MineRoverKata
 {
-    static class ConsumeInputPhaseExecutor
+    class ConsumeInputPhaseExecutor
     {
-        public static void Run(IInputDataBuffer inputData, IArena arena, List<Robot> robots, List<string> commandStreams)
+        public ConsumeInputPhaseExecutor (IInputDataBuffer inputData, MineRovers mineRovers)
         {
-            setSizeOfArena(inputData, arena);
-            setLimitsForRobotMovement(arena);
-            createRobots(inputData, robots);
-            getCommandStreams(inputData, commandStreams);
+            this.inputData = inputData;
+            this.mineRovers = mineRovers;
         }
 
-        private static void setSizeOfArena(IInputDataBuffer inputData, IArena arena)
+        public void Run()
+        {
+            SetSizeOfArena();
+            CreateRobots();
+            GetCommandStreams();
+        }
+
+        private void SetSizeOfArena()
         {
             var sizeOfArena = InputDataTranslator.TranslateSizeOfArena(inputData.GetSizeOfArena());
-            arena.SetWidth(sizeOfArena.Width);
-            arena.SetHeight(sizeOfArena.Height);
+            mineRovers.arena = new Arena(sizeOfArena);
         }
 
-        private static void setLimitsForRobotMovement(IArena arena)
+        private void CreateRobots()
         {
-            PositionValidator.SetMaxX(arena.GetWidth());
-            PositionValidator.SetMaxY(arena.GetHeight());
-        }
-
-        private static void createRobots(IInputDataBuffer inputData, List<Robot> robots)
-        {
-            int nrOfRobots = inputData.GetNrOfRobots();
+            int nrOfRobots = inputData.NrOfRobots;
             for (int robotIndex = 0; robotIndex < nrOfRobots; robotIndex++)
             {
                 string initPosAndOrientString = inputData.GetInitialPositionAndOrientation(robotIndex);
                 var initPosAndOrient = InputDataTranslator.TranslateInitialPositionAndOrientation(
                                                                             initPosAndOrientString);
-                validateInitialPositionAndOrientation(initPosAndOrient);
+                ValidateInitialPositionAndOrientation(initPosAndOrient);
 
-                robots[robotIndex].SetPosition(initPosAndOrient.X, initPosAndOrient.Y);
-                robots[robotIndex].SetOrientation(initPosAndOrient.Orientation);
+                mineRovers.Robots[robotIndex].SetPosition(initPosAndOrient.X, initPosAndOrient.Y);
+                mineRovers.Robots[robotIndex].SetOrientation(initPosAndOrient.Orientation);
             }
         }
 
-        private static void getCommandStreams(IInputDataBuffer inputData, List<string> commandStreams)
+        private void GetCommandStreams()
         {
-            int nrOfRobots = inputData.GetNrOfRobots();
+            int nrOfRobots = inputData.NrOfRobots;
             for (int i = 0; i < nrOfRobots; i++)
             {
-                commandStreams.Add(inputData.GetCommandStream(i));
+                mineRovers.CommandStreams.Add(inputData.GetCommandStream(i));
             }
         }
         
-        private static void validateInitialPositionAndOrientation(InitialPositionAndOrientationTranslated initPosAndOrient)
+        private void ValidateInitialPositionAndOrientation(InitialPositionAndOrientation initPosAndOrient)
         {
-            bool isPositionValid = PositionValidator.checkPosition(initPosAndOrient.X, initPosAndOrient.Y);
+            bool isPositionValid = mineRovers.arena.CheckPosition(initPosAndOrient.X, initPosAndOrient.Y);
             bool isOrientationValid = OrientationValidator.checkCharacter(initPosAndOrient.Orientation);
 
             if (!isPositionValid)
@@ -65,5 +61,8 @@ namespace MineRoverKata
                 throw new Exception("Initial orientation invalid");
             }
         }
+
+        private IInputDataBuffer inputData;
+        private MineRovers mineRovers;
     }
 }

@@ -1,10 +1,10 @@
-﻿namespace MineRoverKata
+﻿
+namespace MineRoverKata
 {
     interface IArena
     {
-        public void SetWidth(int width);
-        public int GetWidth();
-        public void SetHeight(int height);
-        public int GetHeight();
+        public bool CheckPosition(int x, int y);
+        public int Width { get; }
+        public int Height { get; }
     }
 }

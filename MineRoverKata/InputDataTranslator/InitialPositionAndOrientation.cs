@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MineRoverKata
 {
-    class InitialPositionAndOrientationTranslated
+    class InitialPositionAndOrientation
     {
         public int X;
         public int Y;

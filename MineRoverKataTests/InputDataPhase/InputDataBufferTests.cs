@@ -6,26 +6,20 @@ namespace MineRoverKataTests
 {
     public class InputDataBufferTests
     {
-        [Fact]
-        public void sizeOfArenaSetterAndGetter()
+        [Theory]
+        [InlineData("4 7")]
+        [InlineData("5 2")]
+        [InlineData("10 100")]
+        public void SizeOfArenaSetterAndGetter(string sizeOfArena)
         {
-            string sizeOfArena = "4 7";
             var inputDataBuffer = new InputDataBuffer();
             inputDataBuffer.SetSizeOfArena(sizeOfArena);
 
             Assert.Equal(sizeOfArena, inputDataBuffer.GetSizeOfArena());
-
-            sizeOfArena = "5 2";
-            inputDataBuffer.SetSizeOfArena(sizeOfArena);
-            Assert.Equal(sizeOfArena, inputDataBuffer.GetSizeOfArena());
-
-            sizeOfArena = "10 100";
-            inputDataBuffer.SetSizeOfArena(sizeOfArena);
-            Assert.Equal(sizeOfArena, inputDataBuffer.GetSizeOfArena());
         }
 
         [Fact]
-        public void initialPositionAndOrientationAdderAndGetter_MultipleAdds()
+        public void InitialPositionAndOrientationAdderAndGetter_MultipleAdds()
         {
             var inputDataBuffer = new InputDataBuffer();
             string[] initPositionAndOrientation = { "3 0 N", "2 1 E", "5 5 W", "10 2 S", "0 0 E" };
@@ -40,7 +34,7 @@ namespace MineRoverKataTests
         }
 
         [Fact]
-        public void commandStreamAdderAndGetter()
+        public void CommandStreamAdderAndGetter()
         {
             var inputDataBuffer = new InputDataBuffer();
             string[] inputCommandStream = { "LLLMLMLRLR", "LLMMMRRML", "L", "R", "MMRRMM" };
@@ -55,7 +49,7 @@ namespace MineRoverKataTests
         }
 
         [Fact]
-        public void getNrOfRobots()
+        public void GetNrOfRobots()
         {
             var inputDataBuffer = new InputDataBuffer();
             string[] initialPositions = { "1 5 E", "2 5 W", "5 1 N", "10 20 S" };
@@ -65,7 +59,7 @@ namespace MineRoverKataTests
             }
 
             int expectedNrOfRobots = initialPositions.Length;
-            Assert.Equal(expectedNrOfRobots, inputDataBuffer.GetNrOfRobots());
+            Assert.Equal(expectedNrOfRobots, inputDataBuffer.NrOfRobots);
         }
     }
 }

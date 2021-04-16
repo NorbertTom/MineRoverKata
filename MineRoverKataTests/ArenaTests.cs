@@ -7,29 +7,47 @@ namespace MineRoverKataTests
     public class ArenaTests
     {
         [Fact]
-        public void widthSetterAndGetter()
+        public void ArenaConstructor()
         {
-            Arena arena = new Arena();
-            int width = 5;
-            arena.SetWidth(width);
-            Assert.Equal(width, arena.GetWidth());
+            var dimensions = new Dimensions
+            {
+                Width = 5,
+                Height = 11
+            };
 
-            width = 11;
-            arena.SetWidth(width);
-            Assert.Equal(width, arena.GetWidth());
+            Arena arena = new Arena(dimensions);
+
+            Assert.Equal(dimensions.Width, arena.Width);
+            Assert.Equal(dimensions.Height, arena.Height);
+
+            dimensions.Width = 10;
+            dimensions.Height = 3;
+
+            arena = new Arena(dimensions);
+
+            Assert.Equal(dimensions.Width, arena.Width);
+            Assert.Equal(dimensions.Height, arena.Height);
         }
 
         [Fact]
-        public void heightSetterAndGetter()
+        public void IfPositionIsValid()
         {
-            Arena arena = new Arena();
-            int height = 12;
-            arena.SetHeight(height);
-            Assert.Equal(height, arena.GetHeight());
+            var dimensions = new Dimensions 
+            {
+                Width = 10,
+                Height = 100
+            };
+            var arena = new Arena(dimensions);
 
-            height = 20;
-            arena.SetHeight(height);
-            Assert.Equal(height, arena.GetHeight());
+            Assert.True(arena.CheckPosition(0, 0));
+            Assert.True(arena.CheckPosition(9, 99));
+            Assert.True(arena.CheckPosition(10, 100));
+            Assert.False(arena.CheckPosition(-1, 2));
+            Assert.False(arena.CheckPosition(1, -2));
+            Assert.False(arena.CheckPosition(-1, -2));
+            Assert.False(arena.CheckPosition(9, 101));
+            Assert.False(arena.CheckPosition(11, 10));
+            Assert.False(arena.CheckPosition(11, 102));
         }
     }
 }

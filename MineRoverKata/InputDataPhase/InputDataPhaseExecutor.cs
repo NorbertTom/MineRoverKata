@@ -4,37 +4,42 @@ using System.Text;
 
 namespace MineRoverKata
 {
-    static class InputDataPhaseExecutor // untestable - user input needed
+    class InputDataPhaseExecutor
     {
-        public static void Run(IInputDataBuffer inputDataBuffer)
+        public InputDataPhaseExecutor(IInputDataBuffer inputDataBuffer)
         {
-            UIMessages.OpeningMessage();
-            InputSizeOfArena(inputDataBuffer);
-            InputRobotsData(inputDataBuffer);
+            this.inputDataBuffer = inputDataBuffer;
         }
 
-        private static void InputSizeOfArena(IInputDataBuffer inputDataBuffer)
+        public void Run()
+        {
+            UIMessages.OpeningMessage();
+            InputSizeOfArena();
+            InputRobotsData();
+        }
+
+        private void InputSizeOfArena()
         {
             UIMessages.InputSizeOfArenaMessage();
             string inputSizeOfArena = Console.ReadLine();
             inputDataBuffer.SetSizeOfArena(inputSizeOfArena);
         }
 
-        private static void InputRobotsData(IInputDataBuffer inputDataBuffer)
+        private void InputRobotsData()
         {
             bool keepAddingRobots = true;
             while (keepAddingRobots)
             {
-                keepAddingRobots = InputInitialPositionAndOrientation(inputDataBuffer);
+                keepAddingRobots = InputInitialPositionAndOrientation();
 
                 if (keepAddingRobots)
                 {
-                    InputCommandStream(inputDataBuffer);
+                    InputCommandStream();
                 }
             }
         }
 
-        private static bool InputInitialPositionAndOrientation(IInputDataBuffer inputDataBuffer)
+        private bool InputInitialPositionAndOrientation()
         {
             bool keepAddingRobots = true;
 
@@ -53,11 +58,13 @@ namespace MineRoverKata
             return keepAddingRobots;
         }
 
-        private static void InputCommandStream(IInputDataBuffer inputDataBuffer)
+        private void InputCommandStream()
         {
             UIMessages.InputCommandStreamMessage();
             string inputCommandStream = Console.ReadLine();
             inputDataBuffer.AddCommandStream(inputCommandStream);
         }
+
+        IInputDataBuffer inputDataBuffer;
     }
 }

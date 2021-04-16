@@ -4,25 +4,40 @@ using System.Text;
 
 namespace MineRoverKata
 {
-    static class RobotActionExecutor
+    class RobotActionExecutor
     {
-        public static void Execute(IRobot robot, char action)
+        public RobotActionExecutor(IRobot robot, string commandStream, IArena arena)
+        {
+            this.robot = robot;
+            this.commandStream = commandStream;
+            this.arena = arena;
+        }
+
+        public void ExecuteAllActions()
+        {
+            for (int commandIndex = 0; commandIndex < commandStream.Length; commandIndex++)
+            {
+                ExecuteSingleAction(commandStream[commandIndex]);
+            }
+        }
+
+        private void ExecuteSingleAction(char action)
         {
             switch (action)
             {
                 case 'L':
-                    turnLeft(robot);
+                    TurnLeft();
                     break;
                 case 'R':
-                    turnRight(robot);
+                    TurnRight();
                     break;
                 case 'M':
-                    move(robot);
+                    Move();
                     break;
             }
         }
 
-        private static void turnLeft(IRobot robot)
+        private void TurnLeft()
         {
             RobotOrientation orientation = robot.GetOrientation();
             if (orientation == RobotOrientation.North)
@@ -36,7 +51,7 @@ namespace MineRoverKata
             robot.SetOrientation(orientation);
         }
 
-        private static void turnRight(IRobot robot)
+        private void TurnRight()
         {
             RobotOrientation orientation = robot.GetOrientation();
             if (orientation == RobotOrientation.West)
@@ -50,7 +65,7 @@ namespace MineRoverKata
             robot.SetOrientation(orientation);
         }
 
-        private static void move(IRobot robot)
+        private void Move()
         {
             RobotOrientation orientation = robot.GetOrientation();
             int[] robotDisplacement = MoveRobot.GetRobotDisplacement(orientation);
@@ -58,12 +73,17 @@ namespace MineRoverKata
             int[] finalPosition = { currentPosition[0] + robotDisplacement[0],
                                     currentPosition[1] + robotDisplacement[1] };
             
-            if (!PositionValidator.checkPosition(finalPosition[0], finalPosition[1]))
+            if (!arena.CheckPosition(finalPosition[0], finalPosition[1]))
             {
                 throw new Exception("Move puts robot out of the arena");
             }
 
             robot.SetPosition(finalPosition[0], finalPosition[1]);
         }
+
+        private IRobot robot;
+        private string commandStream;
+        private IArena arena;
+        
     }
 }

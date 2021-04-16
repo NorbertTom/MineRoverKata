@@ -5,34 +5,26 @@ namespace MineRoverKata
 {
     class Arena : IArena
     {
-        public Arena()
-        {}
-
-        public void SetWidth(int width)
+        public Arena(Dimensions dimensions)
         {
-            Debug.Assert(width > 0, "Width cannot be less then or equal to 0");
-            
-            this.width = width;
+            if (dimensions.Width <= 0)
+            {
+                throw new Exception("Width cannot be less or equal to 0");
+            }
+            if (dimensions.Height <= 0)
+            {
+                throw new Exception("Height cannot be less or equal to 0");
+            }
+            Width = dimensions.Width;
+            Height = dimensions.Height;
         }
 
-        public int GetWidth()
+        public bool CheckPosition(int x, int y)
         {
-            return width;
+            return !(x < 0 || y < 0 || x > Width || y > Height);
         }
 
-        public void SetHeight(int height)
-        {
-            Debug.Assert(height > 0, "Height cannot be less then or equal to 0");
-
-            this.height = height;
-        }
-
-        public int GetHeight()
-        {
-            return height;
-        }
-
-        private int width;
-        private int height;
+        public int Width { get; private set; }
+        public int Height { get; private set; }
     }
 }
